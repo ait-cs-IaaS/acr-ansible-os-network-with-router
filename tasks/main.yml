@@ -1,0 +1,8 @@
+---
+- name: Create server
+  ansible.builtin.include_tasks: present.yml
+  when: openstack_state == 'present'
+
+- name: Delete server
+  ansible.builtin.include_tasks: absent.yml
+  when: openstack_state == 'absent'

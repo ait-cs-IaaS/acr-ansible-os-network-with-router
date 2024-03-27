@@ -1,0 +1,20 @@
+---
+- name: Create network
+  openstack.cloud.network:
+    name: "{{ os_network_name }}"
+  register: created_network
+
+- name: Create subnet
+  openstack.cloud.subnet:
+    name: "{{ os_network_subnet }}"
+    network: "{{ created_network.id }}"
+    cidr: "{{ os_network_cidr }}"
+    dns_nameservers: "{{ os_network_dns_nameservers }}"
+
+- name: Create router
+  openstack.cloud.router:
+    name: "{{ os_router_name }}"
+    network: "{{ os_router_network }}"
+    interfaces:
+      - net: "{{ os_network_name }}"
+        subnet: "{{ os_network_subnet }}"
